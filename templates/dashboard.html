@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es" class="dark h-full">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="h-full flex flex-col items-center justify-center px-4 bg-slate-900 text-white">
+
+    <!-- Logout -->
+    <div class="absolute top-5 right-5">
+        <a href="{{ url_for('logout') }}"
+           class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">
+            Logout
+        </a>
+    </div>
+
+    <!-- Card principal -->
+    <div class="w-full max-w-2xl bg-slate-800 p-8 rounded-2xl shadow-2xl">
+
+        <h1 class="text-2xl font-bold mb-2 text-center">
+            Bienvenido {{ user }}
+        </h1>
+
+        <p class="text-center text-slate-400 mb-8">
+            Generador de contraseñas seguro
+        </p>
+
+        <!-- FORM -->
+        <form method="POST" class="space-y-6">
+
+            <!-- Slider -->
+            <div>
+                <label class="block mb-2 font-semibold">
+                    Longitud:
+                    <span id="valorLongitud">{{ longitud }}</span>
+                </label>
+
+                <input type="range"
+                       name="longitud"
+                       min="8"
+                       max="32"
+                       value="{{ longitud }}"
+                       oninput="valorLongitud.innerText = this.value"
+                       class="w-full accent-blue-500">
+            </div>
+
+            <!-- Checkboxes -->
+            <div class="space-y-2">
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox"
+                           name="mayus"
+                           {% if mayus %}checked{% endif %}
+                           class="accent-blue-500">
+                    Incluir mayúsculas
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox"
+                           name="numeros"
+                           {% if numeros %}checked{% endif %}
+                           class="accent-blue-500">
+                    Incluir números
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox"
+                           name="simbolos"
+                           {% if simbolos %}checked{% endif %}
+                           class="accent-blue-500">
+                    Incluir símbolos
+                </label>
+
+            </div>
+
+            <!-- Botón generar -->
+            <div class="text-center">
+                <button type="submit"
+                        class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                    Generar contraseña
+                </button>
+            </div>
+
+        </form>
+
+        <!-- Password generado -->
+        {% if password %}
+        <div class="mt-8 text-center">
+
+            <h2 class="text-lg font-semibold mb-4 text-slate-300">
+                Tu contraseña:
+            </h2>
+
+            <h1 id="passwordText"
+                class="tracking-widest text-2xl md:text-3xl font-mono font-bold break-all py-4 px-4 bg-slate-700 rounded-lg">
+                {{ password }}
+            </h1>
+
+            <!-- Botón copiar -->
+            <button type="button"
+                    onclick="copiarPassword()"
+                    class="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                Copiar al portapapeles
+            </button>
+
+        </div>
+        {% endif %}
+
+        <!-- Historial -->
+        {% if historial %}
+        <div class="mt-10">
+
+            <h2 class="text-xl font-bold mb-4">
+                Historial
+            </h2>
+
+            <ul class="space-y-2">
+                {% for item in historial %}
+                <li class="font-mono bg-slate-700 p-3 rounded-lg break-all">
+                    {{ item }}
+                </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+        {% endif %}
+
+    </div>
+
+    <!-- Script copiar -->
+    <script>
+        function copiarPassword() {
+            const texto = document.getElementById("passwordText").innerText;
+            navigator.clipboard.writeText(texto);
+            alert("Contraseña copiada al portapapeles");
+        }
+    </script>
+
+</body>
+</html>
