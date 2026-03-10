@@ -68,8 +68,11 @@
     <!-- Login Card -->
     <div class="w-full bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xl shadow-slate-200/50 dark:shadow-none p-8">
 
-        <!-- 🔥 FORM CONECTADO A FLASK -->
+        <!-- FORM CONECTADO A FLASK -->
         <form method="POST" class="space-y-6">
+
+            <!-- CSRF TOKEN -->
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
             <!-- Mensaje de error -->
             {% if error %}
@@ -115,12 +118,18 @@
                 >
             </div>
 
-            <!-- Button -->
+            <!-- Login Button -->
             <button
                 type="submit"
                 class="w-full flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-primary hover:bg-primary/90 text-white text-base font-bold leading-normal tracking-wide transition-all shadow-lg shadow-primary/20">
                 <span class="truncate">Login</span>
             </button>
+
+            <!-- Register Button -->
+            <a href="/register"
+               class="w-full flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 border border-primary text-primary hover:bg-primary/10 text-base font-bold leading-normal tracking-wide transition-all">
+                <span class="truncate">Registrarse</span>
+            </a>
 
         </form>
 

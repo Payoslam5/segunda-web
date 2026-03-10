@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+<script id="tailwind-config">
+tailwind.config = {
+darkMode: "class",
+theme: {
+extend: {
+colors: {
+"primary": "#1241a1",
+"background-light": "#f6f6f8",
+"background-dark": "#111621",
+},
+fontFamily: {
+"display": ["Inter"]
+},
+borderRadius: {
+"DEFAULT": "0.125rem",
+"lg": "0.25rem",
+"xl": "0.5rem",
+"full": "0.75rem"
+},
+},
+},
+}
+</script>
+
+<title>Registro - Password Generator Pro</title>
+</head>
+
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-x-hidden">
+
+<div class="relative flex min-h-screen w-full flex-col items-center justify-center p-4">
+
+<div class="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
+<div class="absolute -top-24 -left-24 w-96 h-96 bg-primary/20 rounded-full blur-3xl"></div>
+<div class="absolute -bottom-24 -right-24 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
+</div>
+
+<div class="w-full max-w-[480px] flex flex-col items-center space-y-8 z-10">
+
+<div class="flex flex-col items-center text-center space-y-2">
+
+<div class="bg-primary/10 p-3 rounded-xl mb-4">
+<span class="material-symbols-outlined text-primary text-4xl">
+lock
+</span>
+</div>
+
+<h1 class="text-slate-900 dark:text-slate-100 tracking-tight text-3xl font-bold leading-tight">
+Password Generator Pro
+</h1>
+
+<p class="text-slate-500 dark:text-slate-400 text-sm">
+Crea y gestiona tus contraseñas de forma segura
+</p>
+
+</div>
+
+
+<!-- FORMULARIO -->
+<form method="POST" class="w-full space-y-5">
+
+<!-- TOKEN CSRF -->
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+{% if error %}
+<div class="bg-red-100 text-red-700 px-4 py-3 rounded-lg text-sm">
+{{ error }}
+</div>
+{% endif %}
+
+
+<!-- Usuario -->
+<div class="flex flex-col gap-1.5">
+
+<label class="text-slate-700 dark:text-slate-200 text-sm font-semibold leading-normal px-1">
+Nombre de usuario
+</label>
+
+<div class="relative group">
+
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400 text-lg">person</span>
+</div>
+
+<input
+name="username"
+required
+class="form-input flex w-full rounded-lg text-slate-900 dark:text-slate-100 focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 h-14 pl-11 pr-4 placeholder:text-slate-400 dark:placeholder:text-slate-600 text-base font-normal transition-all"
+placeholder="Ingrese su usuario"
+type="text"/>
+
+</div>
+</div>
+
+
+<!-- Password -->
+<div class="flex flex-col gap-1.5">
+
+<label class="text-slate-700 dark:text-slate-200 text-sm font-semibold leading-normal px-1">
+Contraseña
+</label>
+
+<div class="relative group">
+
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400 text-lg">key</span>
+</div>
+
+<input
+name="password"
+required
+class="form-input flex w-full rounded-lg text-slate-900 dark:text-slate-100 focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 h-14 pl-11 pr-4 placeholder:text-slate-400 dark:placeholder:text-slate-600 text-base font-normal transition-all"
+placeholder="Ingrese su contraseña"
+type="password"/>
+
+</div>
+</div>
+
+
+<!-- Botón -->
+<button
+type="submit"
+class="w-full mt-4 flex h-14 items-center justify-center overflow-hidden rounded-lg bg-primary hover:bg-primary/90 text-white text-base font-bold leading-normal tracking-wide transition-colors shadow-lg shadow-primary/20">
+
+<span class="truncate">Registrarse</span>
+
+</button>
+
+</form>
+
+
+<div class="flex flex-col items-center pt-2">
+
+<a class="text-primary dark:text-primary text-sm font-medium leading-normal hover:underline transition-all"
+href="/">
+
+¿Ya tiene una cuenta? Inicie sesión
+
+</a>
+
+</div>
+
+
+<div class="flex items-center gap-2 pt-8 opacity-40">
+
+<div class="h-[1px] w-12 bg-slate-300 dark:bg-slate-700"></div>
+
+<span class="text-[10px] uppercase tracking-widest font-bold text-slate-500 dark:text-slate-400">
+Seguridad Encriptada
+</span>
+
+<div class="h-[1px] w-12 bg-slate-300 dark:bg-slate-700"></div>
+
+</div>
+
+</div>
+</div>
+
+</body>
+</html>
