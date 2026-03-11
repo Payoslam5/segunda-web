@@ -1,6 +1,7 @@
 import random
 import string
-import sqlite3
+import os
+import psycopg2
 
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -15,16 +16,31 @@ csrf = CSRFProtect(app)
 
 
 # =========================
+# Conexión a la base de datos
+# =========================
+def get_db():
+
+    database_url = os.environ.get("DATABASE_URL")
+
+    # Si no existe (ejecución local) usar SQLite
+    if not database_url:
+        import sqlite3
+        return sqlite3.connect("usuarios.db")
+
+    return psycopg2.connect(database_url)
+
+
+# =========================
 # Crear base de datos
 # =========================
 def crear_db():
 
-    conn = sqlite3.connect("usuarios.db")
+    conn = get_db()
     cursor = conn.cursor()
 
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS usuarios (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id SERIAL PRIMARY KEY,
         username TEXT UNIQUE NOT NULL,
         password TEXT NOT NULL
     )
@@ -67,7 +83,6 @@ def login():
 
     intentos = session.get("intentos", 0)
 
-    # Bloqueo por intentos
     if intentos >= 5:
         return render_template(
             "index.html",
@@ -79,11 +94,11 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
 
-        conn = sqlite3.connect("usuarios.db")
+        conn = get_db()
         cursor = conn.cursor()
 
         cursor.execute(
-            "SELECT password FROM usuarios WHERE username = ?",
+            "SELECT password FROM usuarios WHERE username = %s",
             (username,)
         )
 
@@ -132,11 +147,11 @@ def register():
 
         try:
 
-            conn = sqlite3.connect("usuarios.db")
+            conn = get_db()
             cursor = conn.cursor()
 
             cursor.execute(
-                "INSERT INTO usuarios (username, password) VALUES (?, ?)",
+                "INSERT INTO usuarios (username, password) VALUES (%s, %s)",
                 (username, password_hash)
             )
 
