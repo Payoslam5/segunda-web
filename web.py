@@ -185,6 +185,10 @@ def mantener_despues_ping():
 # Run
 # =========================
 if __name__ == "__main__":
-    # Inicia ping interno en segundo plano
-    threading.Thread(target=mantener_despues_ping, daemon=True).start()
+    # Solo iniciar el ping interno si APP_URL está configurada
+    if os.environ.get("APP_URL"):
+        threading.Thread(target=mantener_despues_ping, daemon=True).start()
+    else:
+        print("APP_URL no configurada, ping interno desactivado.")
+
     app.run(debug=True)
