@@ -16,3 +16,4 @@ pywin32-ctypes==0.2.3
 Werkzeug==3.1.5
 WTForms==3.2.1
 psycopg2-binary
+requests==2.31.0
